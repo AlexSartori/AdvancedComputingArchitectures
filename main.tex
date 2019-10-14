@@ -1,0 +1,35 @@
+\documentclass[a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{center}
+    \begin{figure}[h!]
+        \centerline{\psfig{file=logo_unitn_black_center.eps,width=0.8\textwidth}}
+    \end{figure}
+    \vspace{2 cm}
+    \Huge\textsc{Advanced Computing Architectures\\}
+    \vspace{1 cm}
+    \large{Passerone Roberto\\}
+    \vspace{6 cm}
+    \large{Notes curated by:\\Sartori Alessandro and Zanella Davide}
+\end{center}
+
+\clearpage
+
+\tableofcontents
+
+\include{ch_fundamentals}
+
+\include{ch_instruction_set_architechtures}
+
+\include{ch_pipelining}
+
+\include{ch_memory}
+
+\include{ch_branch_prediction}
+
+\end{document}
