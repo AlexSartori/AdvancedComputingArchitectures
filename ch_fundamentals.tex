@@ -57,7 +57,38 @@ In conclusion, it can be inferred that a designer only has control on the strong
 
 
 \section{Performance Evaluation}
-...
+Measuring performance is a far from trivial task. Although Moore's Law states that clock frequencies double every 15 to 18 months, architectural enhancements need to be considered as well, therefore leading to the lack of a univocal comparison criteria. An ideal metric would would be:
+\begin{itemize}
+    \item \textbf{Linear}: if two values differ by a certain factor, performances will also differ by the same factor.
+    \item \textbf{Reliable}: a system X outperforms another system Y if the metric indicates so.
+    \item \textbf{Repeatable}: measurements results are consistent across repetitions, with a given amount of uncertainty.
+    \item \textbf{Easy to use}: more people will adopt the metric and the probability of obtaining incorrect results decreases.
+    \item \textbf{Consistent}: units and definition are the same across different systems and configurations.
+    \item \textbf{Independent}: the definition is univocal and is not affected by external influences.
+\end{itemize}
+
+\begin{example}
+\textbf{Clock Frequency} \\
+This metric is repeatable, easy to measure, consistent and independent, but NOT linear and reliable. For instance, it doesn't take into account the amount of computation carried out within a clock cycle, nor it considers the interaction with the I/O system.
+\end{example}
+
+\begin{example}
+\textbf{Millions of Instructions Per Second (MIPS)} \\
+Although repeatable, independent, and easy to measure, this metric is NOT linear, reliable, nor consistent: as for the Clock Frequency, the meaning of "instruction" and its computational load vary from architecture to architecture.
+\end{example}
+
+\begin{example}
+\textbf{MOPS and MFLOPS} \\
+These two metrics try to solve the inconsistency of MIPS by considering (respectively) only integer and floating-point operations, therefore defining more strictly the concept of "instruction". However, it still doesn't consider the differences in implementation of the operations, possibly resulting in misleading figures.
+\end{example}
+
+\begin{example}
+\textbf{Execution Time} \\
+Execution Time meets all the properties listed above. It includes both the time actually spent running (CPU time), and the time spent waiting for memory and I/O operations. CPU time, in turn, consists of \textbf{User CPU time} and \textbf{System CPU time}, where the former counts the time spent when executing the task's instructions, while the latter counts the time spent for OS calls.
+\end{example}
+
+
+\section{Benchmarks}
 
 \section{Design of Computing Systems}
 ...

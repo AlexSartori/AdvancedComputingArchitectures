@@ -157,9 +157,9 @@ One RAW hazard example on a 5-stage pipeline:\\
 The CU of the pipeline:
 \begin{enumerate}
     \item Check (in the ID stage) whether one of the source register $r_{s1}$ and $r_{s2}$ of the considered instruction $I_{k+1}$ coincides with the destination register $r_d$ of some previous incomplete instruction. 6 comparisons are required:\\
-    IF/ID.IR($r_{s1}$) == ID/EX.IR($r_d$) \|  IF/ID.IR($r_{s2}$) == ID/EX.IR($r_d$)\\
-    IF/ID.IR($r_{s1}$) == EX/MEM.IR($r_d$) \|  IF/ID.IR($r_{s2}$) == EX/MEM.IR($r_d$)\\
-    IF/ID.IR($r_{s1}$) == MEM/WB.IR($r_d$) \|  IF/ID.IR($r_{s2}$) == MEM/WB.IR($r_d$)
+    $IF/ID.IR(r_{s1}) == ID/EX.IR(r_d) \|  IF/ID.IR(r_{s2}) == ID/EX.IR(r_d)$\\
+    $IF/ID.IR(r_{s1}) == EX/MEM.IR(r_d) \|  IF/ID.IR(r_{s2}) == EX/MEM.IR(r_d$)\\
+    $IF/ID.IR(r_{s1}) == MEM/WB.IR(r_d) \|  IF/ID.IR(r_{s2}) == MEM/WB.IR(r_d)$
     
     \item If a hazard is detected, the CU stalls the conflicting instruction $I_{k+1}$ in the ID stage until the instruction $I_k$ has completed its flow (pipeline interlock). Same as a nop but with less instruction memory space.
 \end{enumerate}
@@ -267,7 +267,7 @@ Reduction of stage complexity is limited by four factors:
         \item Clock skew: worst-case delay between active clock signal edges in two points of a digital system (e.g., between any two pipeline registers)
     \end{itemize}
     The sum of these two contributions represents lower bound to clock cycle.
-    \item \textit{Growing data dependences}:\\
+    \item \textit{Growing data dependencies}:\\
     This leads to a higher number of bubbles in a deeper pipeline–performance loss due to data hazards increases
     \item \textit{Longer control hazards}:\\
     imply slower branches in case of wrong predictions

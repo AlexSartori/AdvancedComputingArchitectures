@@ -102,5 +102,109 @@ If found, it is a hit, otherwise it is a miss.
 \end{itemize}
 
 \section{Direct-mapped cache}
+Assume the cache is made of an array of $N_B$ blocks.
+Let $B_{AR}$ be the address of the required block in RAM.
 
+In a direct-mapped cache, the block can only be placed in the cache block at address $B_{AC}$:
+
+$B_{AC} = B_{AR} mod N_B$
+
+$B_{AC}$ is also called the index of the cache block.
+If $N_B$ is a power of 2, then the index is equal to the $N_{AC} = log2(N_{B}$ least significant bits of $B_{AR}$.
+
+\includegraphics[width=\textwidth]{images/direct_mapped_cache.png}
+
+\paragraph{Problems}
+\begin{itemize}
+    \item \textbf{Placement problem}:\\
+    Trivial – the block from RAM can be mapped onto one cache block only
+    \item \textbf{Search problem}:\\
+    different memory blocks can be placed in the same cache block. How do we decide which location is mapped in the cache?\\
+    \textbf{Solution}: each cache line must be provided with:
+    \begin{itemize}
+        \item A \textbf{tag field} containing the $N_{AR} - N_{AC}$ most significant bits of $B_{AR}$
+        \item A \textbf{validity bit} - denotes whether block contains meaningful (valid) data.
+    \end{itemize}
+    \item \textbf{Replacement problem}:\\
+    Trivial – the new block from RAM can be mapped onto one cache block only. Does not account for temporal locality! Block substituted may have been very recently used.
+\end{itemize}
+
+\includegraphics[width=\textwidth]{images/direct_mapped_cache_example.png}
+
+\section{Fully associative cache}
+In fully-associative cache every block of RAM can be mapped onto any block of cache (there is no constraint on Placement).
+The search problem is tackled by running a parallel comparison of  the wanted address with all tags. So a large number of comparators is done and so it's very expensive in terms of area and power consumption.
+
+The index is 0 bits and the tag is the complete address of the word minus the bits for block and byte displacements. 
+
+\includegraphics[width=\textwidth]{images/fully_associative_cache.png}
+
+\paragraph{Replacement strategies}
+\begin{itemize}
+    \item \textbf{Random}:\\
+    the block to be substituted is chosen randomly.
+    \begin{itemize}
+        \item \textit{pro}: It is simple. Minimum HW support (pseudo-random number generator)
+        \item \textit{cons}: Efficiency in terms of miss rate is comparable to DM cache. In fact, temporal locality not taken into account.
+    \end{itemize}
+    \item \textbf{Least Recently Used (LRU)}:\\
+    substitute the block left unused for the longest time.
+    \begin{itemize}
+        \item \textit{pro}: It fully exploits temporal locality. Maximum efficiency
+        \item \textit{cons}: It requires HW support. The cost of this solution increases largely with the number of blocks. A counter per each block.
+    \end{itemize}
+    \item \textbf{First In First Out (FIFO)} (also called Round Robin) of length N:\\
+    substitute the block used N accesses before the present one. Whether it was used during the last N-1accesses or not.
+    \begin{itemize}
+        \item \textit{pro}: This is the best tradeoff between performance and complexity. It is adopted in several recent systems.
+        \item \textit{cons}: It just approximates the locality principle
+    \end{itemize}
+\end{itemize}
+
+\section{N-way set-associative cache}
+N-way set-associative cache is a tradeoff between DM and fully associative solutions.
+Cache is arranged in $N_{set}$ sets ($N_{set}$ being a power of 2), each set including N blocks. Notice:  $N_{set} = N_B/ N$   where $N_B$ is the total number of blocks.
+
+The index $I_{set}$ of the Set in cache corresponding to a given memory block address $B_{AR}$ is given by:\\
+$I_{set} = B_{AR} mod N_{set}$
+
+Each block within the set at index  $I_{set}$ can map onto any of the N cache blocks in the set, using fully associative technique.
+
+The set in cache corresponding to block in RAM is identified as in DM cache (Index identifies Set). Within the set, block is identified with associative mechanisms (multiple tag comparisons in parallel).
+
+\includegraphics[width=\textwidth]{images/n-way_set_associative.png}
+
+The direct mapped cache is a 1-way set associative cache (set = 1 block).
+The fully associative cache has only one big set, the size of the whole cache.
+
+\textbf{Advantages compared to fully associative cache}: comparators are fewer and smaller so cheaper and faster solutions.
+
+\textbf{Advantages compared to direct-mapped cache}: better exploitation of temporal locality at a reasonable cost
+
+The replacement of a block is performed by one of the techniques seen for associative cache (random, LRU or round-robin).
+
+\section{Causes of cache miss}
+\begin{itemize}
+    \item \textbf{Compulsory misses}:\\
+    at the time of the first access, a block is never present in cache. Not dependent on cache size and architecture (dependent on block size, though)
+    \item \textbf{Capacity misses}:\\
+    if the cache cannot contain all the blocks needed during execution of a program, capacity misses will occur due to blocks being discarded and later retrieved. This kind of misses decreases with cache size
+    \item \textbf{Conflict misses}:\\
+    in direct-mapped or set-associative caches, blocks that are replaced may have to be reloaded later in the same set – leading to collision (“conflict”) misses
+\end{itemize}
+
+\subsection{The write problem}
+Write in caches are less frequent than reads.
+Instruction fetch only requires memory reads.
+“Load” instructions more frequent than “store”.
+
+In Write to memory operations we ask:
+\textbf{Speed}: implies writing to cache;
+\textbf{Consistency}: information in lower-layer memories must always be consistent with information in cache.
+
+\subsubsection{Write strategies:}
+\paragraph{Write-through}
+information is written \textbf{simultaneously} in cache block and in the main memory block. Consistency always respected, access time for writes is that of the lower level of memory, so lower performance.
+
+\paragraph{Write-back}
 
