@@ -87,9 +87,46 @@ These two metrics try to solve the inconsistency of MIPS by considering (respect
 Execution Time meets all the properties listed above. It includes both the time actually spent running (CPU time), and the time spent waiting for memory and I/O operations. CPU time, in turn, consists of \textbf{User CPU time} and \textbf{System CPU time}, where the former counts the time spent when executing the task's instructions, while the latter counts the time spent for OS calls.
 \end{example}
 
+$$CPU time = N_{CLK} \cdot T_{CLK} = CPI \cdot IC \cdot T_{CLK}$$
+
+Where $N_{CLK}$ is the number of clock cycles, $T_CLK$ the period of a cycle, $CPI$ stands for Clock Per Instruction and describes the average duration of a single instruction, and $IC$ (Instruction Count) the number of instructions of the task.
+
+$$ CPI = \frac{\sum_{i=1}^{n}IC_i \cdot CPI_i}{IC}$$
+
+Where $n$ is the total number of instructions of the ISA of a certain processor, and $IC_i$ and $CPI_i$ are respectively the IC and CPI of the $i-th$ instruction.
 
 \section{Benchmarks}
+A benchmark is a suite of tasks that aims at mimicking the expected workload of a given computing system, in order to compare the performance of different systems. Benchmarks come in many types:
+\begin{itemize}
+    \item \textbf{Real Applications} have many problems related to portability and variability of the workload across repetitions due to the number of employed options.
+    \item \textbf{Modified (Scripted) Applications} are Real Applications with improved portability thanks to, for instance, the removal or simulation of I/O operations.
+    \item \textbf{Kernels} are key sections of real applications extracted to evaluate the performance of individual features.
+    \item \textbf{Synthetic Benchmarks} are similar to kernels but are just simulations of instructions frequencies with no practical usefulness.
+    \item \textbf{Toy Benchmarks} consist of 10 to 100 lines of code running simple and portable algorithms with known solutions.
+\end{itemize}
+
+Since companies tend to only select those which highlight the performance of their products, benchmarks are given out among suites with specific rules on compilation options and source code modifications. Depending on the target architecture, benchmarks can be of different kinds from Desktop Computing to Servers or Embedded Systems.
+
+In order to evaluate the performance of a suite, two geometric means are used: one for integer benchmarks, and for floating-point ones. A geometric mean is calculated as:
+
+$$ G = \sqrt[N]{\prod_{j=1}^{N}\left(\frac{T_{e_j}}{T_{R_j}}\right)} $$
+
+With N being the number of programs, $T_{e_j}$ the execution time of the $j$-th task, and $T_{R_j}$ the reference execution time of the $j$-th program. A geometric mean offers the advantage of maintaining consistent relationships regardless of the reference machine, but long and short tasks will have the same weight, encouraging engineers to focus on easy-to improve benchmarks instead of focusing on the slowest applications. Therefore, a number of other criteria exist:
+
+\begin{itemize}
+    \item \textbf{Total Execution Time} \\
+    $$ T = \sum_{j=1}^NT_{e_j}$$
+    \item \textbf{Average Execution Time} \\
+    $$ \overline{T}_e = \frac{1}{N} \sum_{j=1}^NT_{e_j}$$
+    \item \textbf{Weighted Execution Time} \\
+    $$ T_{e_w} = \sum_{j=1}^Nw_jT_{e_j}$$
+    \item \textbf{Equal Time Weighing} \\
+    $$ w_j = \frac{1}{T_{e_j} \cdot \sum_{j=1}^N\frac{1}{T_{e_j}}}$$
+    
+\end{itemize}
 
 \section{Design of Computing Systems}
-...
+Designing a system or architecture is a multi-variable and multi-objective optimization problem, involving \textit{execution time (T)}, \textit{cost (C)}, and \textit{power consumption (P)}.
+
+E basta, mi son rotto le balle di sto capitolo (slide 52).
 
